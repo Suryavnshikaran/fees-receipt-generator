@@ -1,81 +1,71 @@
 const express = require('express');
-const cors = require('cors');
 const path = require('path');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Middlewares
-app.use(cors());
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+// Serve static files from 'public' folder
 app.use(express.static(path.join(__dirname, 'public')));
 
-// In-memory database array
-let receiptsDatabase = [];
-
-// API Endpoint: Generate Receipt Data
+// API Endpoint to generate receipt calculations
 app.post('/api/generate-receipt', (req, res) => {
     try {
-        const { studentName, rollNo, course, semester, tuitionFee, examFee, transportFee, lateFee, amountPaid, paymentMethod } = req.body;
-
-        // Validation
-        if (!studentName || !rollNo || !course || !semester) {
-            return res.status(400).json({ success: false, message: 'Please provide all required fields.' });
-        }
-
-        // Calculations
-        const totalAmount = Number(tuitionFee || 0) + Number(examFee || 0) + Number(transportFee || 0) + Number(lateFee || 0);
-        const paid = Number(amountPaid || 0);
-        const balance = totalAmount - paid;
-
-        // Generate Unique Receipt Number
-        const receiptNo = 'REC-' + Date.now().toString().slice(-6) + Math.floor(1000 + Math.random() * 9000);
-        const currentDate = new Date().toLocaleDateString('en-IN', {
-            day: '2-digit', month: 'short', year: 'numeric'
-        });
-
-        const newReceipt = {
-            receiptNo,
-            date: currentDate,
+        const {
             studentName,
             rollNo,
             course,
             semester,
-            feesBreakdown: {
-                tuitionFee: Number(tuitionFee || 0),
-                examFee: Number(examFee || 0),
-                transportFee: Number(transportFee || 0),
-                lateFee: Number(lateFee || 0)
-            },
-            totalAmount,
-            amountPaid: paid,
-            balanceDue: balance > 0 ? balance : 0,
-            paymentMethod: paymentMethod || 'Cash',
-            status: balance <= 0 ? 'PAID' : 'PARTIALLY PAID'
-        };
+            paymentMethod,
+            tuitionFee,
+            examFee,
+            transportFee,
+            lateFee,
+            amountPaid
+        } = req.body;
 
-        receiptsDatabase.push(newReceipt);
+        const tFee = parseFloat(tuitionFee) || 0;
+        const eFee = parseFloat(examFee) || 0;
+        const trFee = parseFloat(transportFee) || 0;
+        const lFee = parseFloat(lateFee) || 0;
+        const paid = parseFloat(amountPaid) || 0;
 
-        res.status(200).json({
+        const totalAmount = tFee + eFee + trFee + lFee;
+        const balanceDue = totalAmount - paid;
+        const status = balanceDue <= 0 ? 'PAID' : 'PARTIAL / PENDING';
+
+        const receiptNo = 'VU/' + new Date().getFullYear() + '/' + Math.floor(1000 + Math.random() * 9000);
+        const date = new Date().toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
+
+        res.json({
             success: true,
-            message: 'Receipt generated successfully!',
-            receipt: newReceipt
+            receipt: {
+                receiptNo,
+                date,
+                studentName,
+                rollNo,
+                course,
+                semester,
+                paymentMethod,
+                feesBreakdown: {
+                    tuitionFee: tFee.toLocaleString('en-IN'),
+                    examFee: eFee.toLocaleString('en-IN'),
+                    transportFee: trFee.toLocaleString('en-IN'),
+                    lateFee: lFee.toLocaleString('en-IN')
+                },
+                totalAmount: totalAmount.toLocaleString('en-IN'),
+                amountPaid: paid.toLocaleString('en-IN'),
+                balanceDue: balanceDue.toLocaleString('en-IN'),
+                status
+            }
         });
-    } catch (error) {
-        res.status(500).json({ success: false, message: 'Server error occurred.' });
+    } catch (err) {
+        res.status(500).json({ success: false, message: 'Server error occurred' });
     }
 });
 
-// API Endpoint: Get all receipts history
-app.get('/api/receipts', (req, res) => {
-    res.status(200).json({ success: true, receipts: receiptsDatabase });
-});
-
-// Serve Frontend
-app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'index.html'));
-});
-
 app.listen(PORT, () => {
-    console.log(`Server is running at: http://localhost:${PORT}`);
+    console.log(`Server is running on http://localhost:${PORT}`);
 });

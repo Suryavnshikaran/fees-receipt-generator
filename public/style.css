@@ -8,18 +8,28 @@
 body {
     background-color: #f4f7f6;
     color: #333;
-    padding-bottom: 40px;
+    line-height: 1.6;
 }
 
-.header {
-    background: #1e3c72;
-    background: linear-gradient(to right, #2a5298, #1e3c72);
+.app-header {
+    background: linear-gradient(135deg, #1e3c72, #2a5298);
     color: white;
     text-align: center;
-    padding: 25px 15px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
 }
 
-.container {
+.app-header h1 {
+    font-size: 26px;
+    letter-spacing: 1px;
+}
+
+.app-header p {
+    font-size: 13px;
+    opacity: 0.85;
+}
+
+.main-container {
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
@@ -28,86 +38,142 @@ body {
     padding: 0 15px;
 }
 
-.card {
-    background: white;
-    border-radius: 10px;
-    padding: 25px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+.panel {
     flex: 1;
     min-width: 320px;
-    height: fit-content; /* Card ko content ke hisab se lamba hone dega */
+    background: white;
+    border-radius: 8px;
+    padding: 25px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+}
+
+.panel h2 {
+    font-size: 18px;
+    margin-bottom: 20px;
+    color: #1e3c72;
+    border-bottom: 2px solid #f0f0f0;
+    padding-bottom: 8px;
+}
+
+.panel h3 {
+    font-size: 15px;
+    margin: 15px 0 10px;
+    color: #444;
 }
 
 .form-group {
-    margin-bottom: 15px;
-}
-
-.form-group label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: 600;
-    font-size: 14px;
-}
-
-.form-group input, .form-group select {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 14px;
+    margin-bottom: 14px;
 }
 
 .form-row {
     display: flex;
-    gap: 15px;
+    gap: 12px;
 }
 
 .form-row .form-group {
     flex: 1;
 }
 
-.btn {
-    padding: 12px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-    font-weight: bold;
-    width: 100%;
-    transition: background 0.3s;
+label {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    margin-bottom: 5px;
+    color: #555;
 }
 
-.btn-primary { background-color: #2a5298; color: white; }
-.btn-primary:hover { background-color: #1e3c72; }
+input, select {
+    width: 100%;
+    padding: 9px 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.2s;
+}
 
-.btn-success { background-color: #28a745; color: white; width: 48%; }
+input:focus, select:focus {
+    border-color: #2a5298;
+}
+
+.btn {
+    width: 100%;
+    padding: 11px;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.btn-primary { background-color: #1e3c72; color: white; }
+.btn-primary:hover { background-color: #162c54; }
+
+.btn-success { background-color: #28a745; color: white; }
 .btn-success:hover { background-color: #218838; }
 
-.btn-secondary { background-color: #6c757d; color: white; width: 48%; }
+.btn-dark { background-color: #343a40; color: white; }
+.btn-dark:hover { background-color: #23272b; }
+
+.btn-secondary { background-color: #6c757d; color: white; margin-top: 8px; }
 .btn-secondary:hover { background-color: #5a6268; }
 
-.action-buttons {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 15px;
-}
+.mt-15 { margin-top: 15px; }
+.hidden { display: none !important; }
 
-.hidden { display: none; }
-
-.placeholder-text {
+.placeholder-box {
     text-align: center;
-    color: #888;
-    margin-top: 50px;
-    font-style: italic;
+    padding: 40px 20px;
+    color: #777;
+    background: #fafafa;
+    border: 2px dashed #ddd;
+    border-radius: 6px;
+    font-size: 14px;
 }
 
-/* --- Receipt Printable Design --- */
-.receipt-printable {
-    border: 2px solid #1e3c72;
+/* QR Section Styles */
+.qr-card {
+    text-align: center;
+    background: #fff;
+    border: 1px solid #e0e0e0;
     padding: 20px;
     border-radius: 8px;
-    background: #ffffff;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.qr-amount-text {
+    font-size: 15px;
+    color: #333;
+    margin-bottom: 12px;
+}
+
+.qr-image {
+    width: 160px;
+    height: 160px;
+    object-fit: contain;
+    border: 1px solid #ddd;
+    padding: 6px;
+    border-radius: 4px;
+    background: #fff;
+}
+
+.qr-instructions {
+    font-size: 11px;
+    color: #666;
+    margin-top: 8px;
+}
+
+/* Receipt Printable Styles */
+.receipt-printable {
+    background: white;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
     width: 100%;
+    margin:0 auto;
+    box-sizing: border-box;
+    overflow: visible !important;
 }
 
 .receipt-header {
@@ -117,34 +183,43 @@ body {
     margin-bottom: 15px;
 }
 
-.receipt-header h2 { font-size: 18px; color: #1e3c72; }
-.receipt-header p { font-size: 11px; color: #555; }
+.receipt-header h2 {
+    color: #1e3c72;
+    font-size: 20px;
+    border: none;
+    margin: 0;
+    padding: 0;
+}
+
+.univ-tagline {
+    font-size: 11px;
+    color: #555;
+}
+
 .receipt-title {
-    font-weight: bold;
     font-size: 13px;
-    margin-top: 8px;
+    font-weight: bold;
     background: #1e3c72;
     color: white;
     display: inline-block;
     padding: 3px 15px;
     border-radius: 3px;
+    margin-top: 6px;
+    letter-spacing: 1px;
 }
 
-.info-table, .footer-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 13px;
-    margin-bottom: 10px;
-}
-
-.student-info {
-    font-size: 13px;
+.receipt-meta-grid {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
     margin-bottom: 15px;
     border-bottom: 1px dashed #ccc;
     padding-bottom: 10px;
 }
 
-.student-info p { margin-bottom: 4px; }
+.receipt-meta-grid p {
+    margin-bottom: 3px;
+}
 
 .receipt-table {
     width: 100%;
@@ -155,24 +230,46 @@ body {
 
 .receipt-table th, .receipt-table td {
     border: 1px solid #ddd;
-    padding: 8px;
+    padding: 8px 10px;
 }
 
-.receipt-table th { background-color: #f2f2f2; text-align: left; }
-.total-row { background-color: #e9ecef; }
-.balance-row { background-color: #f8d7da; }
+.receipt-table th {
+    background-color: #f8f9fa;
+    color: #333;
+}
+
+.summary-row {
+    background-color: #fdfdfd;
+}
+
+.balance-row {
+    background-color: #fff8f8;
+    color: #c0392b;
+}
+
+.receipt-footer-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-top: 20px;
+}
 
 .status-badge {
-    display: inline-block;
-    padding: 6px 15px;
-    border-radius: 15px;
-    font-weight: bold;
-    font-size: 12px;
-    background: #28a745;
+    background-color: #28a745;
     color: white;
+    padding: 6px 14px;
+    font-weight: bold;
+    font-size: 13px;
+    border-radius: 4px;
+    letter-spacing: 1px;
 }
 
-.signature {
-    text-align: center;
-    font-size: 12px;
+.signature-box {
+    text-align: right;
+    font-size: 11px;
+    color: #444;
+}
+
+.action-buttons {
+    margin-top: 15px;
 }

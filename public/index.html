@@ -3,41 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>College Fees Receipt Generator</title>
+    <title>Vikrant University - Fees Receipt Generator</title>
     <link rel="stylesheet" href="style.css">
-    <!-- html2pdf Library -->
+    <!-- html2pdf library for PDF download -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 </head>
 <body>
 
-    <div class="header">
+    <header class="app-header">
         <h1>VIKRANT UNIVERSITY</h1>
-        <p>Fees Receipt Generator</p>
-    </div>
+        <p>Automated College Fee Management System</p>
+    </header>
 
-    <div class="container">
-        <!-- Form Section -->
-        <div class="card form-section">
-            <h2>Enter Details</h2>
+    <div class="main-container">
+        <!-- Left Panel: Input Form -->
+        <div class="panel form-panel">
+            <h2>Student Fee Portal</h2>
             <form id="feeForm">
                 <div class="form-group">
                     <label>Student Full Name *</label>
-                    <input type="text" id="studentName" required placeholder="">
+                    <input type="text" id="studentName" required placeholder="Enter student name">
                 </div>
 
                 <div class="form-row">
                     <div class="form-group">
-                        <label>Roll Number / Enrollment *</label>
-                        <input type="text" id="rollNo" required placeholder="">
+                        <label>Roll Number / Enrollment No *</label>
+                        <input type="text" id="rollNo" required placeholder="e.g. VU/2023/CSE/045">
                     </div>
                     <div class="form-group">
-                        <label>Course / Branch *</label>
+                        <label>Course *</label>
                         <select id="course" required>
                             <option value="">Select Course</option>
-                            <option value="B.Tech Computer Science">B.Tech CS</option>
-                            <option value="B.Tech IT">B.Tech IT</option>
-                            <option value="BCA">BCA</option>
-                            <option value="MCA">MCA</option>
+                            <option value="B.Tech Computer Science">B.Tech Computer Science</option>
+                            <option value="B.Tech Electrical Engineering">B.Tech Electrical Engineering</option>
+                            <option value="B.Tech Mechanical Engineering">B.Tech Mechanical Engineering</option>
+                            <option value="Master of Business Administration (MBA)">Master of Business Administration (MBA)</option>
+                            <option value="Bachelor of Computer Applications (BCA)">Bachelor of Computer Applications (BCA)</option>
                         </select>
                     </div>
                 </div>
@@ -46,150 +47,159 @@
                     <div class="form-group">
                         <label>Semester *</label>
                         <select id="semester" required>
-                            <option value="1st Sem">1st Sem</option>
-                            <option value="2nd Sem">2nd Sem</option>
-                            <option value="3rd Sem">3rd Sem</option>
-                            <option value="4th Sem">4th Sem</option>
-                            <option value="5th Sem">5th Sem</option>
-                            <option value="6th Sem">6th Sem</option>
-                            <option value="7th Sem">7th Sem</option>
-                            <option value="8th Sem">8th Sem</option>
+                            <option value="1st Semester">1st Semester</option>
+                            <option value="2nd Semester">2nd Semester</option>
+                            <option value="3rd Semester">3rd Semester</option>
+                            <option value="4th Semester">4th Semester</option>
+                            <option value="5th Semester">5th Semester</option>
+                            <option value="6th Semester">6th Semester</option>
+                            <option value="7th Semester">7th Semester</option>
+                            <option value="8th Semester">8th Semester</option>
                         </select>
                     </div>
                     <div class="form-group">
-                        <label>Payment Method</label>
-                        <select id="paymentMethod">
-                            <option value="UPI / QR">UPI / QR</option>
-                            <option value="Net Banking">Net Banking</option>
-                            <option value="Debit/Credit Card">Debit/Credit Card</option>
+                        <label>Payment Method *</label>
+                        <select id="paymentMethod" required>
+                            <option value="UPI/QR">UPI / QR</option>
                             <option value="Cash">Cash</option>
-                            <option value="Demand Draft">Demand Draft</option>
                         </select>
                     </div>
                 </div>
-
-                <hr style="margin: 15px 0; border: 0; border-top: 1px solid #ddd;">
 
                 <h3>Fee Breakdown (₹)</h3>
                 <div class="form-row">
                     <div class="form-group">
-                        <label>Tuition Fee</label>
-                        <input type="number" id="tuitionFee" value="" min="0">
+                        <label>Tuition Fees</label>
+                        <input type="number" id="tuitionFee" value="35000" required>
                     </div>
                     <div class="form-group">
-                        <label>Exam Fee</label>
-                        <input type="number" id="examFee" value="" min="0">
+                        <label>Exam Fees</label>
+                        <input type="number" id="examFee" value="2500" required>
                     </div>
                 </div>
 
                 <div class="form-row">
                     <div class="form-group">
-                        <label>Transport Fee</label>
-                        <input type="number" id="transportFee" value="" min="0">
+                        <label>Transport Fees</label>
+                        <input type="number" id="transportFee" value="5000" required>
                     </div>
                     <div class="form-group">
-                        <label>Late Fee (If any)</label>
-                        <input type="number" id="lateFee" value="" min="0">
+                        <label>Late Fees / Fine</label>
+                        <input type="number" id="lateFee" value="0" required>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label>Amount Paid Now (₹) *</label>
-                    <input type="number" id="amountPaid" required value="" min="0">
+                    <label>Amount Paid by Student (₹) *</label>
+                    <input type="number" id="amountPaid" value="42500" required>
                 </div>
 
-                <button type="submit" class="btn btn-primary">Generate Receipt</button>
+                <!-- Step 1 Button: Pay / Show QR -->
+                <button type="submit" id="payBtn" class="btn btn-primary">Proceed to Pay / Show QR</button>
             </form>
         </div>
 
-        <!-- Receipt Preview Section -->
-        <div class="card preview-section">
-            <h2>Receipt Preview</h2>
-            <div id="receiptPlaceholder" class="placeholder-text">
-                Fill the form and click "Generate Receipt" to view and download the fee receipt.
+        <!-- Right Panel: QR Display & Receipt Preview -->
+        <div class="panel preview-panel">
+            <h2>Payment & Receipt Preview</h2>
+
+            <!-- Initial Placeholder -->
+            <div id="placeholderText" class="placeholder-box">
+                Fill the form on the left and click <strong>"Proceed to Pay / Show QR"</strong>.
             </div>
 
-            <div id="receiptBox" class="receipt-box hidden">
-                <!-- Yehi content screen par dikhega aur download hoga -->
+            <!-- Step 2: Side-by-Side QR Box (Shown when UPI/QR selected) -->
+            <div id="qrSection" class="qr-section hidden">
+                <div class="qr-card">
+                    <h3>Scan QR Code to Pay</h3>
+                    <p class="qr-amount-text">Total Payable: <strong id="displayPayableAmt">₹0</strong></p>
+                    
+                    <!-- Your custom jpeg QR code image -->
+                    <img src="qr.jpeg" alt="Vikrant University UPI QR" class="qr-image">
+                    
+                    <p class="qr-instructions">Scan using any UPI App (GPay, PhonePe, Paytm)</p>
+
+                    <!-- Step 3 Button: Generate Receipt (Hides QR and displays final receipt) -->
+                    <button id="generateReceiptBtn" class="btn btn-success mt-15">Generate Receipt</button>
+                </div>
+            </div>
+
+            <!-- Step 4: Final Printable Receipt Box -->
+            <div id="receiptBox" class="hidden">
                 <div id="receiptContent" class="receipt-printable">
                     <div class="receipt-header">
-                        <h2>Vikrant University</h2>
-                        <p>Gwalior, Madhya pradesh</p>
-                        <div class="receipt-title">FEE RECEIPT</div>
+                        <h2>VIKRANT UNIVERSITY</h2>
+                        <p class="univ-tagline">University Road, Barrai, Madhya Pradesh</p>
+                        <div class="receipt-title">OFFICIAL FEE RECEIPT</div>
                     </div>
 
-                    <table class="info-table">
-                        <tr>
-                            <td><strong>Receipt No:</strong> <span id="rNo"></span></td>
-                            <td style="text-align: right;"><strong>Date:</strong> <span id="rDate"></span></td>
-                        </tr>
-                    </table>
-
-                    <div class="student-info">
-                        <p><strong>Student Name:</strong> <span id="rName"></span></p>
-                        <p><strong>Roll No:</strong> <span id="rRoll"></span></p>
-                        <p><strong>Course & Sem:</strong> <span id="rCourseSem"></span></p>
-                        <p><strong>Payment Mode:</strong> <span id="rMode"></span></p>
+                    <div class="receipt-meta-grid">
+                        <div>
+                            <p><strong>Receipt No:</strong> <span id="rNo"></span></p>
+                            <p><strong>Date:</strong> <span id="rDate"></span></p>
+                            <p><strong>Student Name:</strong> <span id="rName"></span></p>
+                        </div>
+                        <div style="text-align: right;">
+                            <p><strong>Roll No:</strong> <span id="rRoll"></span></p>
+                            <p><strong>Course:</strong> <span id="rCourse"></span></p>
+                            <p><strong>Semester:</strong> <span id="rSem"></span></p>
+                            <p><strong>Payment Mode:</strong> <span id="rMode"></span></p>
+                        </div>
                     </div>
 
                     <table class="receipt-table">
                         <thead>
                             <tr>
-                                <th>Particulars</th>
+                                <th>Fee Particulars</th>
                                 <th style="text-align: right;">Amount (₹)</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td>Tuition Fee</td>
-                                <td id="rTuition" style="text-align: right;">0</td>
+                                <td>Tuition Fees</td>
+                                <td style="text-align: right;" id="rTuition">₹0</td>
                             </tr>
                             <tr>
-                                <td>Exam Fee</td>
-                                <td id="rExam" style="text-align: right;">0</td>
+                                <td>Exam Fees</td>
+                                <td style="text-align: right;" id="rExam">₹0</td>
                             </tr>
                             <tr>
-                                <td>Transport Fee</td>
-                                <td id="rTransport" style="text-align: right;">0</td>
+                                <td>Transport Fees</td>
+                                <td style="text-align: right;" id="rTransport">₹0</td>
                             </tr>
                             <tr>
-                                <td>Late Fee / Fine</td>
-                                <td id="rLate" style="text-align: right;">0</td>
+                                <td>Late Fees / Fine</td>
+                                <td style="text-align: right;" id="rLate">₹0</td>
                             </tr>
-                            <tr class="total-row">
-                                <td><strong>Total Payable</strong></td>
-                                <td style="text-align: right;"><strong id="rTotal">0</strong></td>
+                            <tr class="summary-row">
+                                <td><strong>Total Fees</strong></td>
+                                <td style="text-align: right;"><strong id="rTotal">₹0</strong></td>
                             </tr>
-                            <tr>
+                            <tr class="summary-row">
                                 <td><strong>Amount Paid</strong></td>
-                                <td style="text-align: right;"><strong id="rPaid">0</strong></td>
+                                <td style="text-align: right;"><strong id="rPaid">₹0</strong></td>
                             </tr>
                             <tr class="balance-row">
                                 <td><strong>Balance Due</strong></td>
-                                <td style="text-align: right;"><strong id="rBalance">0</strong></td>
+                                <td style="text-align: right;"><strong id="rBalance">₹0</strong></td>
                             </tr>
                         </tbody>
                     </table>
 
-                    <table class="footer-table">
-                        <tr>
-                            <td>
-                                <div class="status-badge" id="rStatus">PAID</div>
-                            </td>
-                            <td style="text-align: right;">
-                                <div class="signature">
-                                    <br>
-                                    <p>___________________</p>
-                                    <p>Authorized Sign</p>
-                                </div>
-                            </td>
-                        </tr>
-                    </table>
+                    <div class="receipt-footer-flex">
+                        <div class="status-badge" id="rStatus">PAID</div>
+                        <div class="signature-box">
+                            <p>___________________________</p>
+                            <p><strong>Authorized Signatory</strong></p>
+                            <p>Accounts Department</p>
+                        </div>
+                    </div>
                 </div>
 
+                <!-- Action Button -->
                 <div class="action-buttons">
-                    <button id="downloadPdfBtn" class="btn btn-success">Download PDF</button>
-                    <button id="printBtn" class="btn btn-secondary">Print Receipt</button>
+                    <button id="downloadPdfBtn" class="btn btn-dark">Download PDF Receipt</button>
+                    <button id="resetBtn" class="btn btn-secondary">Create New Receipt</button>
                 </div>
             </div>
         </div>
