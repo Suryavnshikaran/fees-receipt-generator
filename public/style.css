@@ -1,0 +1,178 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: #f4f7f6;
+    color: #333;
+    padding-bottom: 40px;
+}
+
+.header {
+    background: #1e3c72;
+    background: linear-gradient(to right, #2a5298, #1e3c72);
+    color: white;
+    text-align: center;
+    padding: 25px 15px;
+}
+
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    max-width: 1200px;
+    margin: 25px auto;
+    padding: 0 15px;
+}
+
+.card {
+    background: white;
+    border-radius: 10px;
+    padding: 25px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    flex: 1;
+    min-width: 320px;
+    height: fit-content; /* Card ko content ke hisab se lamba hone dega */
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.form-group input, .form-group select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.form-row {
+    display: flex;
+    gap: 15px;
+}
+
+.form-row .form-group {
+    flex: 1;
+}
+
+.btn {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    width: 100%;
+    transition: background 0.3s;
+}
+
+.btn-primary { background-color: #2a5298; color: white; }
+.btn-primary:hover { background-color: #1e3c72; }
+
+.btn-success { background-color: #28a745; color: white; width: 48%; }
+.btn-success:hover { background-color: #218838; }
+
+.btn-secondary { background-color: #6c757d; color: white; width: 48%; }
+.btn-secondary:hover { background-color: #5a6268; }
+
+.action-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+}
+
+.hidden { display: none; }
+
+.placeholder-text {
+    text-align: center;
+    color: #888;
+    margin-top: 50px;
+    font-style: italic;
+}
+
+/* --- Receipt Printable Design --- */
+.receipt-printable {
+    border: 2px solid #1e3c72;
+    padding: 20px;
+    border-radius: 8px;
+    background: #ffffff;
+    width: 100%;
+}
+
+.receipt-header {
+    text-align: center;
+    border-bottom: 2px solid #1e3c72;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}
+
+.receipt-header h2 { font-size: 18px; color: #1e3c72; }
+.receipt-header p { font-size: 11px; color: #555; }
+.receipt-title {
+    font-weight: bold;
+    font-size: 13px;
+    margin-top: 8px;
+    background: #1e3c72;
+    color: white;
+    display: inline-block;
+    padding: 3px 15px;
+    border-radius: 3px;
+}
+
+.info-table, .footer-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    margin-bottom: 10px;
+}
+
+.student-info {
+    font-size: 13px;
+    margin-bottom: 15px;
+    border-bottom: 1px dashed #ccc;
+    padding-bottom: 10px;
+}
+
+.student-info p { margin-bottom: 4px; }
+
+.receipt-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 15px;
+    font-size: 13px;
+}
+
+.receipt-table th, .receipt-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+.receipt-table th { background-color: #f2f2f2; text-align: left; }
+.total-row { background-color: #e9ecef; }
+.balance-row { background-color: #f8d7da; }
+
+.status-badge {
+    display: inline-block;
+    padding: 6px 15px;
+    border-radius: 15px;
+    font-weight: bold;
+    font-size: 12px;
+    background: #28a745;
+    color: white;
+}
+
+.signature {
+    text-align: center;
+    font-size: 12px;
+}
