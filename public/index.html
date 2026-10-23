@@ -5,204 +5,287 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vikrant University - Fees Receipt Generator</title>
     <link rel="stylesheet" href="style.css">
-    <!-- html2pdf library for PDF download -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 </head>
 <body>
 
-    <header class="app-header">
-        <h1>VIKRANT UNIVERSITY</h1>
-        <p>Automated College Fee Management System</p>
-    </header>
+    <div class="container no-print">
+        <!-- Header -->
+        <header class="app-header">
+            <h1>VIKRANT UNIVERSITY</h1>
+            <p>Official Fee Receipt Generation Portal</p>
+        </header>
 
-    <div class="main-container">
-        <!-- Left Panel: Input Form -->
-        <div class="panel form-panel">
-            <h2>Student Fee Portal</h2>
-            <form id="feeForm">
-                <div class="form-group">
-                    <label>Student Full Name *</label>
-                    <input type="text" id="studentName" required placeholder="Enter student name">
-                </div>
-
-                <div class="form-row">
+        <div class="main-grid">
+            <!-- Left Panel: Form Input -->
+            <div class="panel form-panel">
+                <h2>Student & Fee Details</h2>
+                <form id="receiptForm">
                     <div class="form-group">
-                        <label>Roll Number / Enrollment No *</label>
-                        <input type="text" id="rollNo" required placeholder="e.g. VU/2023/CSE/045">
-                    </div>
-                    <div class="form-group">
-                        <label>Course *</label>
-                        <select id="course" required>
-                            <option value="">Select Course</option>
-                            <option value="B.Tech Computer Science">B.Tech Computer Science</option>
-                            <option value="B.Tech Electrical Engineering">B.Tech Electrical Engineering</option>
-                            <option value="B.Tech Mechanical Engineering">B.Tech Mechanical Engineering</option>
-                            <option value="Master of Business Administration (MBA)">Master of Business Administration (MBA)</option>
-                            <option value="Bachelor of Computer Applications (BCA)">Bachelor of Computer Applications (BCA)</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>Semester *</label>
-                        <select id="semester" required>
-                            <option value="1st Semester">1st Semester</option>
-                            <option value="2nd Semester">2nd Semester</option>
-                            <option value="3rd Semester">3rd Semester</option>
-                            <option value="4th Semester">4th Semester</option>
-                            <option value="5th Semester">5th Semester</option>
-                            <option value="6th Semester">6th Semester</option>
-                            <option value="7th Semester">7th Semester</option>
-                            <option value="8th Semester">8th Semester</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Payment Method *</label>
-                        <select id="paymentMethod" required>
-                            <option value="UPI/QR">UPI / QR</option>
-                            <option value="Cash">Cash</option>
-                        </select>
-                    </div>
-                </div>
-
-                <h3>Fee Breakdown (₹)</h3>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>Tuition Fees</label>
-                        <input type="number" id="tuitionFee" value="35000" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Exam Fees</label>
-                        <input type="number" id="examFee" value="2500" required>
-                    </div>
-                </div>
-
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>Transport Fees</label>
-                        <input type="number" id="transportFee" value="5000" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Late Fees / Fine</label>
-                        <input type="number" id="lateFee" value="0" required>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label>Amount Paid by Student (₹) *</label>
-                    <input type="number" id="amountPaid" value="42500" required>
-                </div>
-
-                <!-- Step 1 Button: Pay / Show QR -->
-                <button type="submit" id="payBtn" class="btn btn-primary">Proceed to Pay / Show QR</button>
-            </form>
-        </div>
-
-        <!-- Right Panel: QR Display & Receipt Preview -->
-        <div class="panel preview-panel">
-            <h2>Payment & Receipt Preview</h2>
-
-            <!-- Initial Placeholder -->
-            <div id="placeholderText" class="placeholder-box">
-                Fill the form on the left and click <strong>"Proceed to Pay / Show QR"</strong>.
-            </div>
-
-            <!-- Step 2: Side-by-Side QR Box (Shown when UPI/QR selected) -->
-            <div id="qrSection" class="qr-section hidden">
-                <div class="qr-card">
-                    <h3>Scan QR Code to Pay</h3>
-                    <p class="qr-amount-text">Total Payable: <strong id="displayPayableAmt">₹0</strong></p>
-                    
-                    <!-- Your custom jpeg QR code image -->
-                    <img src="qr.jpeg" alt="Vikrant University UPI QR" class="qr-image">
-                    
-                    <p class="qr-instructions">Scan using any UPI App (GPay, PhonePe, Paytm)</p>
-
-                    <!-- Step 3 Button: Generate Receipt (Hides QR and displays final receipt) -->
-                    <button id="generateReceiptBtn" class="btn btn-success mt-15">Generate Receipt</button>
-                </div>
-            </div>
-
-            <!-- Step 4: Final Printable Receipt Box -->
-            <div id="receiptBox" class="hidden">
-                <div id="receiptContent" class="receipt-printable">
-                    <div class="receipt-header">
-                        <h2>VIKRANT UNIVERSITY</h2>
-                        <p class="univ-tagline">University Road, Barrai, Madhya Pradesh</p>
-                        <div class="receipt-title">OFFICIAL FEE RECEIPT</div>
+                        <label for="studentName">Student Name</label>
+                        <input type="text" id="studentName" required placeholder="Enter student full name">
                     </div>
 
-                    <div class="receipt-meta-grid">
-                        <div>
-                            <p><strong>Receipt No:</strong> <span id="rNo"></span></p>
-                            <p><strong>Date:</strong> <span id="rDate"></span></p>
-                            <p><strong>Student Name:</strong> <span id="rName"></span></p>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="rollNo">Roll Number</label>
+                            <input type="text" id="rollNo" required placeholder="Enter Roll Number">
                         </div>
-                        <div style="text-align: right;">
-                            <p><strong>Roll No:</strong> <span id="rRoll"></span></p>
-                            <p><strong>Course:</strong> <span id="rCourse"></span></p>
-                            <p><strong>Semester:</strong> <span id="rSem"></span></p>
-                            <p><strong>Payment Mode:</strong> <span id="rMode"></span></p>
+                        <div class="form-group">
+                            <label for="paymentMethod">Payment Mode</label>
+                            <select id="paymentMethod" required>
+                                <option value="" disabled selected>-- Select Payment Mode --</option>
+                                <option value="UPI/QR">UPI / QR Code</option>
+                                <option value="Cash">Cash</option>
+                            </select>
                         </div>
                     </div>
 
-                    <table class="receipt-table">
-                        <thead>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="course">Course</label>
+                            <select id="course" required>
+                                <option value="">Select Course</option>
+                                <option value="B.Tech (CS)">B.Tech (CS)</option>
+                                <option value="B.Tech (EE)">B.Tech (EE)</option>
+                                <option value="B.Tech (ME)">B.Tech (ME)</option>
+                                <option value="B.Tech (AI)">B.Tech (AI)</option>
+                                <option value="B.Tech (Civil)">B.Tech (Civil)</option>
+                                <option value="MBA">MBA</option>
+                                <option value="MA">MA</option>
+                                <option value="BCA">BCA</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="semester">Semester</label>
+                            <select id="semester" required>
+                                <option value="">Select Semester</option>
+                                <option value="1st Semester">1st Semester</option>
+                                <option value="2nd Semester">2nd Semester</option>
+                                <option value="3rd Semester">3rd Semester</option>
+                                <option value="4th Semester">4th Semester</option>
+                                <option value="5th Semester">5th Semester</option>
+                                <option value="6th Semester">6th Semester</option>
+                                <option value="7th Semester">7th Semester</option>
+                                <option value="8th Semester">8th Semester</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <h3>Fee Breakdown (₹)</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="tuitionFee">Tuition Fee</label>
+                            <input type="number" id="tuitionFee" value="" min="0">
+                        </div>
+                        <div class="form-group">
+                            <label for="examFee">Exam Fee</label>
+                            <input type="number" id="examFee" value="" min="0">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="transportFee">Transport Fee</label>
+                            <input type="number" id="transportFee" value="" min="0">
+                        </div>
+                        <div class="form-group">
+                            <label for="lateFee">Late Fee / Fine</label>
+                            <input type="number" id="lateFee" value="" min="0">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="amountPaid">Amount Paid by Student (₹)</label>
+                        <input type="number" id="amountPaid" value="0" min="0" required>
+                    </div>
+
+                    <button type="submit" class="btn btn-success">Proceed </button>
+                </form>
+            </div>
+
+            <!-- Right Panel: Preview -->
+            <div class="panel preview-panel">
+                <h2>Receipt Preview</h2>
+
+                <div id="placeholderText" class="placeholder-box">
+                    Fill the form on the left and click <strong>"Proceed "</strong>.
+                </div>
+
+                <!-- Preview QR Code Box with "Receipt" Button inside -->
+                <div id="previewQrContainer" class="preview-qr-box hidden">
+                    <p class="preview-qr-title">Scan to Pay via UPI</p>
+                    <div class="preview-qr-img-wrap">
+                        <img src="qr.jpeg" alt="UPI QR Code" class="preview-qr-img">
+                    </div>
+                    <p class="preview-qr-amount">Amount to Pay: <span id="previewQrAmount">₹0</span></p>
+                    <button id="generateReceiptBtn" class="btn btn-success" style="margin-top: 10px;">Receipt</button>
+                </div>
+
+                <!-- Live Screen Receipt Box -->
+                <div id="receiptBox" class="hidden">
+                    <div class="receipt-printable">
+                        <div class="receipt-header">
+                            <h2>VIKRANT UNIVERSITY</h2>
+                            <p>Chitora Road, Gwalior, Madhya Pradesh</p>
+                            <span class="badge">OFFICIAL FEE RECEIPT</span>
+                        </div>
+
+                        <table class="receipt-meta-table">
                             <tr>
-                                <th>Fee Particulars</th>
-                                <th style="text-align: right;">Amount (₹)</th>
+                                <td><strong>Receipt No:</strong> <span id="rNo"></span></td>
+                                <td class="text-right"><strong>Roll No:</strong> <span id="rRoll"></span></td>
                             </tr>
+                            <tr>
+                                <td><strong>Date:</strong> <span id="rDate"></span></td>
+                                <td class="text-right"><strong>Course:</strong> <span id="rCourse"></span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Student Name:</strong> <span id="rName"></span></td>
+                                <td class="text-right"><strong>Semester:</strong> <span id="rSem"></span></td>
+                            </tr>
+                            <tr>
+                                <td colspan="2"><strong>Payment Mode:</strong> <span id="rMode"></span></td>
+                            </tr>
+                        </table>
+
+                        <table class="receipt-items-table">
+                            <thead>
+                                <tr>
+                                    <th>Fee Particulars</th>
+                                    <th class="text-right">Amount (₹)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td>Tuition Fees</td><td class="text-right" id="rTuition">₹0</td></tr>
+                                <tr><td>Exam Fees</td><td class="text-right" id="rExam">₹0</td></tr>
+                                <tr><td>Transport Fees</td><td class="text-right" id="rTransport">₹0</td></tr>
+                                <tr><td>Late Fees / Fine</td><td class="text-right" id="rLate">₹0</td></tr>
+                                <tr class="font-bold"><td>Total Fees</td><td class="text-right" id="rTotal">₹0</td></tr>
+                                <tr class="font-bold"><td>Amount Paid</td><td class="text-right" id="rPaid">₹0</td></tr>
+                                <tr class="text-danger font-bold"><td>Balance Due</td><td class="text-right" id="rBalance">₹0</td></tr>
+                            </tbody>
+                        </table>
+
+                        <div class="receipt-footer-flex">
+                            <span id="rStatus" class="status-badge">PAID</span>
+                            <div class="signature-box">
+                                <p>_______________________</p>
+                                <p><strong>Authorized Signatory</strong></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="action-buttons">
+                        <button id="printBtn" class="btn btn-dark">Print / Save as PDF </button>
+                        <button id="resetBtn" class="btn btn-secondary">Create New Receipt</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================================================= -->
+    <!-- PRINT LAYOUT CONTAINER (DUAL SIDE-BY-SIDE COPIES)  -->
+    <!-- ================================================= -->
+    <div id="printExportContent" class="print-only-container">
+        <table class="print-export-table">
+            <tr>
+                <!-- COPY 1 -->
+                <td class="print-receipt-cell">
+                    <div class="print-header">
+                        <h2 class="print-university-title">VIKRANT UNIVERSITY</h2>
+                        <p class="print-university-sub">Chitora Road, Gwalior, Madhya Pradesh</p>
+                        <div class="print-badge">OFFICIAL FEE RECEIPT</div>
+                    </div>
+                    <table class="print-info-table">
+                        <tr>
+                            <td style="vertical-align: top; padding: 0;">
+                                <p style="margin: 2px 0;"><strong>Receipt No:</strong> <span class="pdfRNo"></span></p>
+                                <p style="margin: 2px 0;"><strong>Date:</strong> <span class="pdfRDate"></span></p>
+                                <p style="margin: 2px 0;"><strong>Student Name:</strong> <span class="pdfRName"></span></p>
+                            </td>
+                            <td style="text-align: right; vertical-align: top; padding: 0;">
+                                <p style="margin: 2px 0;"><strong>Roll No:</strong> <span class="pdfRRoll"></span></p>
+                                <p style="margin: 2px 0;"><strong>Course:</strong> <span class="pdfRCourse"></span></p>
+                                <p style="margin: 2px 0;"><strong>Semester:</strong> <span class="pdfRSem"></span></p>
+                                <p style="margin: 2px 0;"><strong>Payment Mode:</strong> <span class="pdfRMode"></span></p>
+                            </td>
+                        </tr>
+                    </table>
+                    <table class="print-data-table">
+                        <thead>
+                            <tr><th>Fee Particulars</th><th style="text-align: right;">Amount (₹)</th></tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>Tuition Fees</td>
-                                <td style="text-align: right;" id="rTuition">₹0</td>
-                            </tr>
-                            <tr>
-                                <td>Exam Fees</td>
-                                <td style="text-align: right;" id="rExam">₹0</td>
-                            </tr>
-                            <tr>
-                                <td>Transport Fees</td>
-                                <td style="text-align: right;" id="rTransport">₹0</td>
-                            </tr>
-                            <tr>
-                                <td>Late Fees / Fine</td>
-                                <td style="text-align: right;" id="rLate">₹0</td>
-                            </tr>
-                            <tr class="summary-row">
-                                <td><strong>Total Fees</strong></td>
-                                <td style="text-align: right;"><strong id="rTotal">₹0</strong></td>
-                            </tr>
-                            <tr class="summary-row">
-                                <td><strong>Amount Paid</strong></td>
-                                <td style="text-align: right;"><strong id="rPaid">₹0</strong></td>
-                            </tr>
-                            <tr class="balance-row">
-                                <td><strong>Balance Due</strong></td>
-                                <td style="text-align: right;"><strong id="rBalance">₹0</strong></td>
-                            </tr>
+                            <tr><td>Tuition Fees</td><td style="text-align: right;" class="pdfRTuition">0</td></tr>
+                            <tr><td>Exam Fees</td><td style="text-align: right;" class="pdfRExam">0</td></tr>
+                            <tr><td>Transport Fees</td><td style="text-align: right;" class="pdfRTransport">0</td></tr>
+                            <tr><td>Late Fees / Fine</td><td style="text-align: right;" class="pdfRLate">0</td></tr>
+                            <tr style="font-weight: bold; background: #fdfdfd;"><td>Total Fees</td><td style="text-align: right;" class="pdfRTotal">0</td></tr>
+                            <tr style="font-weight: bold; background: #fdfdfd;"><td>Amount Paid</td><td style="text-align: right;" class="pdfRPaid">0</td></tr>
+                            <tr style="color: #c0392b; font-weight: bold;"><td>Balance Due</td><td style="text-align: right;" class="pdfRBalance">0</td></tr>
                         </tbody>
                     </table>
+                    <table class="print-footer-table">
+                        <tr>
+                            <td style="vertical-align: bottom; padding: 0;"><span class="print-status-paid pdfRStatus">PAID</span></td>
+                            <td style="text-align: right; vertical-align: bottom; padding: 0; color: #444;">
+                                <p style="margin: 0;">_______________________</p>
+                                <p style="margin: 2px 0 0 0;"><strong>Authorized Signatory</strong></p>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
 
-                    <div class="receipt-footer-flex">
-                        <div class="status-badge" id="rStatus">PAID</div>
-                        <div class="signature-box">
-                            <p>___________________________</p>
-                            <p><strong>Authorized Signatory</strong></p>
-                            <p>Accounts Department</p>
-                        </div>
+                <!-- COPY 2 -->
+                <td class="print-receipt-cell">
+                    <div class="print-header">
+                        <h2 class="print-university-title">VIKRANT UNIVERSITY</h2>
+                        <p class="print-university-sub">Chitora Road, Gwalior, Madhya Pradesh</p>
+                        <div class="print-badge">OFFICIAL FEE RECEIPT </div>
                     </div>
-                </div>
-
-                <!-- Action Button -->
-                <div class="action-buttons">
-                    <button id="downloadPdfBtn" class="btn btn-dark">Download PDF Receipt</button>
-                    <button id="resetBtn" class="btn btn-secondary">Create New Receipt</button>
-                </div>
-            </div>
-        </div>
+                    <table class="print-info-table">
+                        <tr>
+                            <td style="vertical-align: top; padding: 0;">
+                                <p style="margin: 2px 0;"><strong>Receipt No:</strong> <span class="pdfRNo"></span></p>
+                                <p style="margin: 2px 0;"><strong>Date:</strong> <span class="pdfRDate"></span></p>
+                                <p style="margin: 2px 0;"><strong>Student Name:</strong> <span class="pdfRName"></span></p>
+                            </td>
+                            <td style="text-align: right; vertical-align: top; padding: 0;">
+                                <p style="margin: 2px 0;"><strong>Roll No:</strong> <span class="pdfRRoll"></span></p>
+                                <p style="margin: 2px 0;"><strong>Course:</strong> <span class="pdfRCourse"></span></p>
+                                <p style="margin: 2px 0;"><strong>Semester:</strong> <span class="pdfRSem"></span></p>
+                                <p style="margin: 2px 0;"><strong>Payment Mode:</strong> <span class="pdfRMode"></span></p>
+                            </td>
+                        </tr>
+                    </table>
+                    <table class="print-data-table">
+                        <thead>
+                            <tr><th>Fee Particulars</th><th style="text-align: right;">Amount (₹)</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Tuition Fees</td><td style="text-align: right;" class="pdfRTuition">0</td></tr>
+                            <tr><td>Exam Fees</td><td style="text-align: right;" class="pdfRExam">0</td></tr>
+                            <tr><td>Transport Fees</td><td style="text-align: right;" class="pdfRTransport">0</td></tr>
+                            <tr><td>Late Fees / Fine</td><td style="text-align: right;" class="pdfRLate">0</td></tr>
+                            <tr style="font-weight: bold; background: #fdfdfd;"><td>Total Fees</td><td style="text-align: right;" class="pdfRTotal">0</td></tr>
+                            <tr style="font-weight: bold; background: #fdfdfd;"><td>Amount Paid</td><td style="text-align: right;" class="pdfRPaid">0</td></tr>
+                            <tr style="color: #c0392b; font-weight: bold;"><td>Balance Due</td><td style="text-align: right;" class="pdfRBalance">0</td></tr>
+                        </tbody>
+                    </table>
+                    <table class="print-footer-table">
+                        <tr>
+                            <td style="vertical-align: bottom; padding: 0;"><span class="print-status-paid pdfRStatus">PAID</span></td>
+                            <td style="text-align: right; vertical-align: bottom; padding: 0; color: #444;">
+                                <p style="margin: 0;">_______________________</p>
+                                <p style="margin: 2px 0 0 0;"><strong>Authorized Signatory</strong></p>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
     </div>
 
     <script src="app.js"></script>

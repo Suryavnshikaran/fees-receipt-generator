@@ -5,18 +5,34 @@
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
+/* Remove number input spinner arrows */
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+input[type=number] {
+    -moz-appearance: textfield;
+}
+
 body {
     background-color: #f4f7f6;
     color: #333;
-    line-height: 1.6;
+    padding: 20px;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 .app-header {
+    text-align: center;
     background: linear-gradient(135deg, #1e3c72, #2a5298);
     color: white;
-    text-align: center;
     padding: 20px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    border-radius: 8px;
+    margin-bottom: 25px;
 }
 
 .app-header h1 {
@@ -26,48 +42,50 @@ body {
 
 .app-header p {
     font-size: 13px;
-    opacity: 0.85;
+    margin-top: 5px;
+    opacity: 0.9;
 }
 
-.main-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    max-width: 1200px;
-    margin: 25px auto;
-    padding: 0 15px;
+.main-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 25px;
+}
+
+@media(max-width: 900px) {
+    .main-grid {
+        grid-template-columns: 1fr;
+    }
 }
 
 .panel {
-    flex: 1;
-    min-width: 320px;
-    background: white;
-    border-radius: 8px;
+    background: #ffffff;
     padding: 25px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
 }
 
 .panel h2 {
     font-size: 18px;
-    margin-bottom: 20px;
     color: #1e3c72;
+    margin-bottom: 20px;
     border-bottom: 2px solid #f0f0f0;
     padding-bottom: 8px;
 }
 
 .panel h3 {
-    font-size: 15px;
-    margin: 15px 0 10px;
+    font-size: 14px;
     color: #444;
+    margin: 15px 0 10px 0;
 }
 
 .form-group {
-    margin-bottom: 14px;
+    margin-bottom: 15px;
 }
 
 .form-row {
     display: flex;
-    gap: 12px;
+    gap: 15px;
 }
 
 .form-row .form-group {
@@ -84,192 +102,304 @@ label {
 
 input, select {
     width: 100%;
-    padding: 9px 12px;
+    padding: 10px;
     border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 14px;
-    outline: none;
-    transition: border-color 0.2s;
+    border-radius: 5px;
+    font-size: 13px;
 }
 
 input:focus, select:focus {
-    border-color: #2a5298;
+    border-color: #1e3c72;
+    outline: none;
+}
+
+/* Preview QR Box Styles */
+.preview-qr-box {
+    background: #fdfdfd;
+    border: 1px dashed #1e3c72;
+    padding: 12px;
+    border-radius: 6px;
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.preview-qr-title {
+    font-size: 12px;
+    font-weight: bold;
+    color: #1e3c72;
+    margin-bottom: 6px;
+}
+
+.preview-qr-img-wrap {
+    width: 120px;
+    height: 120px;
+    margin: 0 auto 6px auto;
+    background: #fff;
+    padding: 4px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.preview-qr-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.preview-qr-amount {
+    font-size: 12px;
+    font-weight: bold;
+    color: #28a745;
+    margin-bottom: 5px;
 }
 
 .btn {
     width: 100%;
-    padding: 11px;
+    padding: 12px;
     border: none;
-    border-radius: 4px;
+    border-radius: 5px;
     font-size: 14px;
-    font-weight: 600;
+    font-weight: bold;
     cursor: pointer;
     transition: background 0.2s;
+    margin-top: 10px;
 }
 
-.btn-primary { background-color: #1e3c72; color: white; }
-.btn-primary:hover { background-color: #162c54; }
+.btn-success { background: #28a745; color: white; }
+.btn-success:hover { background: #218838; }
 
-.btn-success { background-color: #28a745; color: white; }
-.btn-success:hover { background-color: #218838; }
+.btn-dark { background: #343a40; color: white; }
+.btn-dark:hover { background: #23272b; }
 
-.btn-dark { background-color: #343a40; color: white; }
-.btn-dark:hover { background-color: #23272b; }
+.btn-secondary { background: #6c757d; color: white; }
+.btn-secondary:hover { background: #5a6268; }
 
-.btn-secondary { background-color: #6c757d; color: white; margin-top: 8px; }
-.btn-secondary:hover { background-color: #5a6268; }
-
-.mt-15 { margin-top: 15px; }
 .hidden { display: none !important; }
+.text-center { text-align: center; }
+.text-right { text-align: right; }
+.font-bold { font-weight: bold; }
+.text-danger { color: #c0392b; }
 
 .placeholder-box {
-    text-align: center;
-    padding: 40px 20px;
-    color: #777;
-    background: #fafafa;
     border: 2px dashed #ddd;
+    padding: 40px;
+    text-align: center;
+    color: #777;
     border-radius: 6px;
     font-size: 14px;
 }
 
-/* QR Section Styles */
-.qr-card {
-    text-align: center;
-    background: #fff;
-    border: 1px solid #e0e0e0;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-}
-
-.qr-amount-text {
-    font-size: 15px;
-    color: #333;
-    margin-bottom: 12px;
-}
-
-.qr-image {
-    width: 160px;
-    height: 160px;
-    object-fit: contain;
-    border: 1px solid #ddd;
-    padding: 6px;
-    border-radius: 4px;
-    background: #fff;
-}
-
-.qr-instructions {
-    font-size: 11px;
-    color: #666;
-    margin-top: 8px;
-}
-
-/* Receipt Printable Styles */
+/* Screen Receipt Styles */
 .receipt-printable {
-    background: white;
-    padding: 20px;
     border: 1px solid #ddd;
+    padding: 20px;
     border-radius: 6px;
-    width: 100%;
-    margin:0 auto;
-    box-sizing: border-box;
-    overflow: visible !important;
+    background: #fff;
 }
 
 .receipt-header {
     text-align: center;
     border-bottom: 2px solid #1e3c72;
     padding-bottom: 10px;
-    margin-bottom: 15px;
+    margin-bottom: 12px;
 }
 
 .receipt-header h2 {
     color: #1e3c72;
-    font-size: 20px;
-    border: none;
+    font-size: 18px;
     margin: 0;
-    padding: 0;
+    border: none;
 }
 
-.univ-tagline {
-    font-size: 11px;
+.receipt-header p {
+    font-size: 10px;
     color: #555;
+    margin: 2px 0;
 }
 
-.receipt-title {
-    font-size: 13px;
+.badge {
+    font-size: 11px;
     font-weight: bold;
     background: #1e3c72;
     color: white;
     display: inline-block;
-    padding: 3px 15px;
+    padding: 3px 12px;
     border-radius: 3px;
-    margin-top: 6px;
-    letter-spacing: 1px;
+    margin-top: 5px;
 }
 
-.receipt-meta-grid {
-    display: flex;
-    justify-content: space-between;
-    font-size: 12px;
-    margin-bottom: 15px;
-    border-bottom: 1px dashed #ccc;
-    padding-bottom: 10px;
-}
-
-.receipt-meta-grid p {
-    margin-bottom: 3px;
-}
-
-.receipt-table {
+.receipt-meta-table, .receipt-items-table {
     width: 100%;
+    font-size: 11px;
+    margin-bottom: 12px;
     border-collapse: collapse;
-    margin-bottom: 15px;
-    font-size: 13px;
 }
 
-.receipt-table th, .receipt-table td {
+.receipt-meta-table td {
+    padding: 3px 0;
+}
+
+.receipt-items-table th, .receipt-items-table td {
     border: 1px solid #ddd;
-    padding: 8px 10px;
+    padding: 6px;
 }
 
-.receipt-table th {
+.receipt-items-table th {
     background-color: #f8f9fa;
-    color: #333;
-}
-
-.summary-row {
-    background-color: #fdfdfd;
-}
-
-.balance-row {
-    background-color: #fff8f8;
-    color: #c0392b;
+    text-align: left;
 }
 
 .receipt-footer-flex {
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
-    margin-top: 20px;
+    margin-top: 15px;
 }
 
 .status-badge {
     background-color: #28a745;
     color: white;
-    padding: 6px 14px;
+    padding: 4px 10px;
     font-weight: bold;
-    font-size: 13px;
+    font-size: 11px;
     border-radius: 4px;
-    letter-spacing: 1px;
 }
 
 .signature-box {
     text-align: right;
-    font-size: 11px;
+    font-size: 10px;
     color: #444;
 }
 
 .action-buttons {
+    display: flex;
+    gap: 10px;
     margin-top: 15px;
+}
+
+/* =========================================
+   PRINT CONTAINER STYLES
+   ========================================= */
+.print-only-container {
+    display: none;
+}
+
+@media print {
+    body > *:not(.print-only-container) {
+        display: none !important;
+    }
+    
+    body {
+        background: #ffffff !important;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+
+    .print-only-container {
+        display: block !important;
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+    }
+
+    @page {
+        size: A4 landscape;
+        margin: 8mm;
+    }
+}
+
+.print-export-table {
+    width: 980px;
+    margin: 0 auto;
+    background: #ffffff;
+    font-family: Arial, sans-serif;
+    color: #333;
+    border-collapse: separate;
+    border-spacing: 20px 0;
+    box-sizing: border-box;
+}
+
+.print-receipt-cell {
+    width: 470px;
+    vertical-align: top;
+    border: 1px solid #b0bec5;
+    padding: 16px;
+    border-radius: 6px;
+    background: #ffffff;
+    box-sizing: border-box;
+}
+
+.print-header {
+    text-align: center;
+    border-bottom: 2px solid #1e3c72;
+    padding-bottom: 8px;
+    margin-bottom: 10px;
+}
+
+.print-university-title {
+    color: #1e3c72;
+    font-size: 16px;
+    font-weight: bold;
+    margin: 0;
+}
+
+.print-university-sub {
+    font-size: 9px;
+    color: #555;
+    margin: 2px 0;
+}
+
+.print-badge {
+    font-size: 10px;
+    font-weight: bold;
+    background: #1e3c72;
+    color: white;
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 3px;
+    margin-top: 4px;
+}
+
+.print-info-table {
+    width: 100%;
+    font-size: 10px;
+    margin-bottom: 10px;
+    border-bottom: 1px dashed #ccc;
+    padding-bottom: 6px;
+}
+
+.print-data-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 10px;
+    font-size: 10px;
+}
+
+.print-data-table th, 
+.print-data-table td {
+    border: 1px solid #ddd;
+    padding: 5px 8px;
+}
+
+.print-data-table th {
+    background-color: #f8f9fa;
+    text-align: left;
+    color: #333;
+}
+
+.print-footer-table {
+    width: 100%;
+    margin-top: 12px;
+    font-size: 10px;
+}
+
+.print-status-paid {
+    background-color: #28a745;
+    color: white;
+    padding: 3px 10px;
+    font-weight: bold;
+    border-radius: 3px;
 }
